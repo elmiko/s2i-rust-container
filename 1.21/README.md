@@ -20,7 +20,7 @@ the application with Docker, execute:
 ```
 s2i build https://github.com/elmiko/s2i-rust-container.git --context-dir=1.21/test/cargo-test-app elmiko/s2i-rust-container rust-sample-app
 
-docker run -p 8080:8080 rust-sample-app
+docker run -d -p 8080:8080 rust-sample-app
 
 curl 127.0.0.1:8080
 ```
