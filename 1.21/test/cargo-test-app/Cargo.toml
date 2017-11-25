@@ -1,0 +1,6 @@
+[package]
+name = "cargo-test-app"
+version = "0.1.0"
+authors = ["michael mccune <msm@opbstudios.com>"]
+
+[dependencies]
