@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+shopt -s dotglob
+mv /tmp/src/* ./
+
+if [[ -z "$DISABLE_RELEASE" ]]; then
+    export PROFILE=release
+else
+    export PROFILE=debug
+fi
+
+if [[ ! -f Cargo.toml ]]; then
+    echo "ERROR: i cannot find a Cargo.toml file, i don't know how to build this application."
+    exit
+fi
+
+echo "--> Building application source ..."
+cargo build
+
+# set permissions for any installed artifacts
+fix-permissions /opt/app-root

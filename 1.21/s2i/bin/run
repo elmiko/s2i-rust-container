@@ -1,0 +1,17 @@
+#!/bin/bash
+source /opt/app-root/etc/generate_container_user
+
+set -e
+
+if [[ -z "$DISABLE_RELEASE" ]]; then
+    export PROFILE=release
+else
+    export PROFILE=debug
+fi
+
+if [[ ! -f Cargo.toml ]]; then
+    echo "ERROR: i can't find a Cargo.toml file, i don't know how to run this application."
+    exit
+fi
+
+cargo run
