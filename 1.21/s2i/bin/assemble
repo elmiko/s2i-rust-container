@@ -6,9 +6,11 @@ shopt -s dotglob
 mv /tmp/src/* ./
 
 if [[ -z "$DISABLE_RELEASE" ]]; then
-    export PROFILE=release
+    RELEASE_FLAG="--release"
+    echo "INFO: Performing release build"
 else
-    export PROFILE=debug
+    RELEASE_FLAG=""
+    echo "INFO: Performing debug build"
 fi
 
 if [[ ! -f Cargo.toml ]]; then
@@ -17,7 +19,7 @@ if [[ ! -f Cargo.toml ]]; then
 fi
 
 echo "--> Building application source ..."
-cargo build
+cargo build $RELEASE_FLAG
 
 # set permissions for any installed artifacts
 fix-permissions /opt/app-root

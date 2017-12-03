@@ -4,9 +4,11 @@ source /opt/app-root/etc/generate_container_user
 set -e
 
 if [[ -z "$DISABLE_RELEASE" ]]; then
-    export PROFILE=release
+    RELEASE_FLAG="--release"
+    echo "INFO: Running release build"
 else
-    export PROFILE=debug
+    RELEASE_FLAG=""
+    echo "INFO: Running release build"
 fi
 
 if [[ ! -f Cargo.toml ]]; then
@@ -14,4 +16,5 @@ if [[ ! -f Cargo.toml ]]; then
     exit
 fi
 
-cargo run
+echo "--> Starting application ..."
+cargo run $RELEASE_FLAG
