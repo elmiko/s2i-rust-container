@@ -10,5 +10,8 @@
 **/*.rs.bk
 
 # files created by the source-to-image makefile tooling
+# ----
 .image-id
 .image-id.raw
+# help.1 files complied by container-common-scripts from README.md files
+*/root/help.1
