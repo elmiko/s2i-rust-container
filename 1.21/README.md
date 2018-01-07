@@ -18,7 +18,7 @@ standalone [S2I](https://github.com/openshift/source-to-image) and then deploy
 the application with Docker, execute:
 
 ```
-s2i build https://github.com/elmiko/s2i-rust-container.git --context-dir=1.21/test/cargo-test-app elmiko/s2i-rust-container rust-sample-app
+s2i build https://github.com/elmiko/s2i-rust-container.git --context-dir=1.21/test/cargo-test-app elmiko/rust-121-centos7 rust-sample-app
 
 docker run -d -p 8080:8080 rust-sample-app
 
