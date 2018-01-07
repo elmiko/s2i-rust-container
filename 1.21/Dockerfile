@@ -11,7 +11,7 @@ ENV RUST_VERSION=1.21 \
 
 ENV SUMMARY="Platform for building and running Rust $RUST_VERSION applications" \
     DESCRIPTION="Rust $RUST_VERSION available as docker container is a base plaform for \
-building and running varios Rust $RUST_VERSION applications and frameworks."
+building and running various Rust $RUST_VERSION applications and frameworks."
 
 LABEL summary="$SUMMARY" \
       description="$DESCRIPTION" \
