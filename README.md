@@ -3,10 +3,6 @@ Rust container images based on CentOS and EPEL intended for OpenShift and genera
 
 ## Versions
 
-Rust versions currently provided:
+* Rust and cargo track to latest versions avaiable from the [EPEL mirrors](https://admin.fedoraproject.org/mirrormanager/mirrors/EPEL)
 
-* [rust-1.21](1.21/)
-
-CentOS versions currently supported:
-
-* CentOS7
+* CentOS tracks to the latest version available from the [upstream s2i image](https://hub.docker.com/r/centos/s2i-base-centos7/)

@@ -4,7 +4,7 @@ FROM centos/s2i-base-centos7
 
 EXPOSE 8080
 
-ENV RUST_VERSION=1.21 \
+ENV RUST_VERSION=latest \
     PATH=$HOME/.local/bin:$PATH \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8
@@ -16,16 +16,16 @@ building and running various Rust $RUST_VERSION applications and frameworks."
 LABEL summary="$SUMMARY" \
       description="$DESCRIPTION" \
       io.k8s.description="$DESCRIPTION" \
-      io.k8s.display-name="Rust 1.21" \
+      io.k8s.display-name="Rust latest" \
       io.openshift.expose-servivces="8080:http" \
       io.openshift.tags="builder,rust,rust121" \
-      name="elmiko/rust-121-centos7" \
-      version="1.21" \
+      name="elmiko/rust-latest-centos7" \
+      version="latest" \
       release="1" \
       maintainer="michael mccune <msm@opbstudios.com>"
 
 RUN yum install -y epel-release && \
-    INSTALL_PKGS="rust-1.21.0 cargo" && \
+    INSTALL_PKGS="rust cargo" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y
