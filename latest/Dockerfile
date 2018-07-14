@@ -24,12 +24,11 @@ LABEL summary="$SUMMARY" \
       release="1" \
       maintainer="michael mccune <msm@opbstudios.com>"
 
-RUN yum install -y centos-release-scl && \
-    yum-config-manager --enable rhel-server-rhscl-7-rpms && \
-    INSTALL_PKGS="rust-toolset-7" && \
-    yum install -y $INSTALL_PKGS && \
+RUN INSTALL_PKGS="rust cargo" && \
+    yum install -y epel-release && \
+    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    yum clean all -y
+    yum clean all -y --enablerepo='*'
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH.
 COPY ./s2i/bin $STI_SCRIPTS_PATH
@@ -40,13 +39,11 @@ COPY ./root/ /
 # - In order to drop the root user, we have to make some directories world
 #   writable as OpenShift default security model is to run the container
 #   under random UID.
-RUN chown -R 1001:0 /opt/app-root && \
-    fix-permissions /opt/app-root && \
+RUN chown -R 1001:0 ${APP_ROOT} && \
+    fix-permissions ${APP_ROOT} -P && \
     rpm-file-permissions
 
 USER 1001
-
-ENTRYPOINT scl enable rust-toolset-7 bash
 
 # Set the default CMD to print the usage of the language image.
 CMD $STI_SCRIPTS_PATH/usage
