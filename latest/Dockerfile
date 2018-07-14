@@ -24,11 +24,13 @@ LABEL summary="$SUMMARY" \
       release="1" \
       maintainer="michael mccune <msm@opbstudios.com>"
 
-RUN yum install -y epel-release && \
-    INSTALL_PKGS="rust cargo" && \
-    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+RUN yum install -y centos-release-scl && \
+    yum-config-manager --enable rhel-server-rhscl-7-rpms && \
+    INSTALL_PKGS="rust-toolset-7" && \
+    yum install -y $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    yum clean all -y
+    yum clean all -y && \
+    scl enable rust-toolset-7 bash
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH.
 COPY ./s2i/bin $STI_SCRIPTS_PATH
