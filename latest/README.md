@@ -1,15 +1,15 @@
-# Rust 1.21 Docker image
+# Rust source-to-image Docker image
 
-This container image includes Rust 1.21 as a
-[S2I](https://github.com/openshift/source-to-image) base image for your Rust
-1.21 applications. It is based on CentOS builder images and installs Rust from
-[EPEL](https://fedoraproject.org/wiki/EPEL).
+This container image includes the latest rust tools as a
+[S2I](https://github.com/openshift/source-to-image) base image for your
+rust-based applications. It is based on CentOS builder images and installs
+rust from the [software colelctions](https://www.softwarecollections.org/).
 
 
 ## Description
 
-Rust 1.21 available as docker container is a base plaform for building and
-running varios Rust $RUST_VERSION applications and frameworks.
+Rust tools available as a containerized format to allow building runtime
+cloud native images directly from git source repositories.
 
 ## Usage
 
@@ -18,7 +18,7 @@ standalone [S2I](https://github.com/openshift/source-to-image) and then deploy
 the application with Docker, execute:
 
 ```
-s2i build https://github.com/elmiko/s2i-rust-container.git --context-dir=1.21/test/cargo-test-app elmiko/rust-121-centos7 rust-sample-app
+s2i build https://github.com/elmiko/s2i-rust-container.git --context-dir=latest/test/cargo-test-app elmiko/rust-latest-centos7 rust-sample-app
 
 docker run -d -p 8080:8080 rust-sample-app
 
