@@ -1,4 +1,4 @@
-# This image provides a Rust 1.21 environment you can use to run your Rust
+# This image provides a Rust environment you can use to run your Rust
 # applications.
 FROM centos/s2i-base-centos7
 
@@ -29,8 +29,7 @@ RUN yum install -y centos-release-scl && \
     INSTALL_PKGS="rust-toolset-7" && \
     yum install -y $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    yum clean all -y && \
-    scl enable rust-toolset-7 bash
+    yum clean all -y
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH.
 COPY ./s2i/bin $STI_SCRIPTS_PATH
@@ -46,6 +45,8 @@ RUN chown -R 1001:0 /opt/app-root && \
     rpm-file-permissions
 
 USER 1001
+
+ENTRYPOINT scl enable rust-toolset-7 bash
 
 # Set the default CMD to print the usage of the language image.
 CMD $STI_SCRIPTS_PATH/usage
