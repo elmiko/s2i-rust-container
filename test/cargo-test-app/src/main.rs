@@ -7,7 +7,7 @@ fn main() {
 
     let mut response = String::new();
     response.push_str("HTTP/1.1 200 OK\n");
-    let body = "Hello from rust TcpListener application.\n";
+    let body = "Hello from Rust TcpListener application.\n";
     response.push_str("Content-Length: ");
     let content_length = body.len().to_string();
     response.push_str(&content_length);
