@@ -11,7 +11,7 @@ It is based on Centos7 and installs Rust from the
 To build a Rust application from a Git repository you will need to use
 the [Cargo](https://doc.rust-lang.org/cargo/index.html) package manager. To
 see an example of how to structure your project, look at the
-[test example](test/cargo-test-app).
+[test application](test/cargo-test-app).
 
 The two primary methods for generating applications from this image are:
 remote build using OpenShift, local build using the s2i tool.
@@ -44,10 +44,7 @@ Use the `curl` utility to read a test message from the service.
 curl http://`oc get route/cargo-test-app --template='{{.spec.host}}'`
 ```
 
-You should see a test message from the service.
-
-
-### Building and Running an application with OpenShift
+### Building and Running an application with Podman
 
 #### Prerequisites
 
@@ -73,8 +70,6 @@ Use the `curl` utility to read a test message from the service.
 ```
 curl 127.0.0.1:8080
 ```
-
-You should see a test message from the service.
 
 ### Environment variables
 
