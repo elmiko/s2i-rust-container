@@ -1,36 +1,87 @@
-# Rust source-to-image Docker image
+# Rust source-to-image container image
 
-This container image includes the latest rust tools as a
-[S2I](https://github.com/openshift/source-to-image) base image for your
-rust-based applications. It is based on CentOS builder images and installs
-rust from the [software colelctions](https://www.softwarecollections.org/).
+This repository contains the artifacts to create a
+[source-to-image](https://github.com/openshift/source-to-image) style
+container image that will build [Rust](https://www.rust-lang.org/) binaries.
+It is based on Centos7 and installs Rust from the
+[EPEL](https://fedoraproject.org/wiki/EPEL) repositories.
 
+## How to use this image
 
-## Description
+To build a Rust application from a Git repository you will need to use
+the [Cargo](https://doc.rust-lang.org/cargo/index.html) package manager. To
+see an example of how to structure your project, look at the
+[test example](test/cargo-test-app).
 
-Rust tools available as a containerized format to allow building runtime
-cloud native images directly from git source repositories.
+The two primary methods for generating applications from this image are:
+remote build using OpenShift, local build using the s2i tool.
 
-## Usage
+### Building and Running an application with OpenShift
 
-To build a simple [rust sample application](test/cargo-test-app) using
-standalone [S2I](https://github.com/openshift/source-to-image) and then deploy
-the application with Docker, execute:
+#### Prerequisites
+
+* A terminal shell with the OpenShift command line client available
+* An active login to an OpenShift cluster
+
+#### Procedure
+
+1. Launch the build and deployment of the application
+   ```
+   oc new-app quay.io/elmiko/rust-centos7~https://github.com/s2i-rust-container.git \
+       --context-dir=test/cargo-test-app \
+       --name=cargo-test-app
+   ```
+1. Expose a route to the service
+   ```
+   oc expose svc/cargo-test-app
+   ```
+
+#### Validation
+
+Use the `curl` utility to read a test message from the service.
 
 ```
-s2i build https://github.com/elmiko/s2i-rust-container.git \
-        --context-dir=latest/test/cargo-test-app \
-        quay.io/elmiko/rust-centos7 rust-sample-app
+curl http://`oc get route/cargo-test-app --template='{{.spec.host}}'`
+```
 
-docker run -d -p 8080:8080 rust-sample-app
+You should see a test message from the service.
 
+
+### Building and Running an application with OpenShift
+
+#### Prerequisites
+
+* A terminal shell with the `s2i` and `podman` commands available
+
+#### Procedure
+
+1. Build the image
+   ```
+   s2i build https://github.com/elmiko/s2i-rust-container.git \
+           --context-dir=test/cargo-test-app \
+           quay.io/elmiko/rust-centos7 cargo-test-app
+   ```
+1. Run the image
+   ```
+   podman run -d -p 8080:8080 cargo-test-app
+   ```
+
+#### Validation
+
+Use the `curl` utility to read a test message from the service.
+
+```
 curl 127.0.0.1:8080
 ```
 
-## Environment variables
+You should see a test message from the service.
+
+### Environment variables
 
 To set these environment variables, you can place them as a key value pair
-into a `.s2i/environment` file inside your source code repository.
+into a `.s2i/environment` file inside your source code repository. You can
+also define them using the environment variable options available with your
+container tooling.
 
 * DISABLE_RELEASE
 
@@ -39,4 +90,38 @@ into a `.s2i/environment` file inside your source code repository.
   profile.
 
 
+## Building and maintaining this image
 
+The image that is produced from this repository(`quay.io/elmiko/rust-centos`)
+is automatically built on update. It is updated and rebuilt when new Rust
+releases are available and for bug fixes.
+
+### Repository layout
+
+The `master` branch contains all current fixes and Rust installations, it is
+mirrored in the image repository with a `latest` tag.
+
+The version branches labelled `vX.Y.Z` correspond to Rust versions that have
+been released in EPEL. Each branch has a corresponding image tag in the
+image repository.
+
+### New Rust versions
+
+When new versions of Rust are available in the upstream EPEL repositories, the
+Dockerfile should be updated as follows.
+
+* Update the `RUST_VERSION` environment variable
+* Update the `io.k8s.display-name` label
+* Update the `io.openshift.tags` label
+* Update the `version` label
+
+Finally, a repository branch corresponding to the version in the format
+`vX.Y.Z` should be created for the new version.
+
+### Bug Fixes
+
+When bugs arise they should be fixed on the `master` branch of this repository
+and then ported to the most recent version branch only. This is due to the
+nature of the Rust installation being based on the most current packages in
+EPEL. It is often difficult or impossible to maintain proper historical version
+installations due to changes in the package repository dependencies.
