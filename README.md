@@ -1,18 +1,40 @@
-# s2i-rust-container
-Rust container images based on CentOS and EPEL intended for OpenShift and general usage that provide a platform for building and running Rust applications.
+# Rust source-to-image Docker image
 
-## Versions
+This container image includes the latest rust tools as a
+[S2I](https://github.com/openshift/source-to-image) base image for your
+rust-based applications. It is based on CentOS builder images and installs
+rust from the [software colelctions](https://www.softwarecollections.org/).
 
-* Rust and cargo track to latest versions avaiable from the [EPEL mirrors](https://admin.fedoraproject.org/mirrormanager/mirrors/EPEL)
 
-* CentOS tracks to the latest version available from the [upstream s2i image](https://hub.docker.com/r/centos/s2i-base-centos7/)
+## Description
 
-## Building
+Rust tools available as a containerized format to allow building runtime
+cloud native images directly from git source repositories.
 
-To build the image, run the following
+## Usage
+
+To build a simple [rust sample application](test/cargo-test-app) using
+standalone [S2I](https://github.com/openshift/source-to-image) and then deploy
+the application with Docker, execute:
 
 ```
-$ cd s2-rust-container
-$ git submodule update --init
-$ make build TARGET=centos7 VERSIONS=latest
+s2i build https://github.com/elmiko/s2i-rust-container.git --context-dir=latest/test/cargo-test-app elmiko/rust-latest-centos7 rust-sample-app
+
+docker run -d -p 8080:8080 rust-sample-app
+
+curl 127.0.0.1:8080
 ```
+
+## Environment variables
+
+To set these environment variables, you can place them as a key value pair
+into a `.s2i/environment` file inside your source code repository.
+
+* DISABLE_RELEASE
+
+  Set this variable to a non-empty value to inhibit the release build process
+  in cargo. This will force cargo to build the application with a debug
+  profile.
+
+
+
