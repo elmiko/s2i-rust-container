@@ -1,6 +1,6 @@
 # This image provides a Rust environment you can use to run your Rust
 # applications.
-FROM centos/s2i-core-centos7
+FROM docker.io/centos:centos8
 
 EXPOSE 8080
 
@@ -25,10 +25,11 @@ LABEL summary="$SUMMARY" \
       maintainer="michael mccune <msm@opbstudios.com>"
 
 RUN INSTALL_PKGS="rust cargo" && \
-    yum install -y epel-release && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    yum clean all -y --enablerepo='*'
+    yum clean all -y --enablerepo='*' && \
+    mkdir /opt/app-root && \
+    chown -R 1001:0 /opt/app-root
 
 COPY ./s2i/bin /usr/libexec/s2i
 

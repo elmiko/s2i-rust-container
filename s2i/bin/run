@@ -3,6 +3,8 @@ source /opt/app-root/etc/generate_container_user
 
 set -e
 
+cd /opt/app-root
+
 if [[ -z "$DISABLE_RELEASE" ]]; then
     RELEASE_FLAG="--release"
     echo "INFO: Running release build"

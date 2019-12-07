@@ -3,7 +3,9 @@
 set -e
 
 shopt -s dotglob
-mv /tmp/src/* ./
+mv /tmp/src/* /opt/app-root
+
+cd /opt/app-root
 
 if [[ -z "$DISABLE_RELEASE" ]]; then
     RELEASE_FLAG="--release"
@@ -18,8 +20,7 @@ if [[ ! -f Cargo.toml ]]; then
     exit
 fi
 
+export HOME=/opt/app-root
+
 echo "--> Building application source ..."
 cargo build $RELEASE_FLAG
-
-# set permissions for any installed artifacts
-fix-permissions /opt/app-root
