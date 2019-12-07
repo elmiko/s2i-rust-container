@@ -100,6 +100,17 @@ The version branches labelled `vX.Y.Z` correspond to Rust versions that have
 been released in EPEL. Each branch has a corresponding image tag in the
 image repository.
 
+### Rebuilding the image locally
+
+To rebuild the image you need `make` and `podman` installed, then run:
+
+```
+make image
+```
+
+If nothing fails you will see a new image tagged `localhost/rust-centos8:latest`
+in your registry.
+
 ### New Rust versions
 
 When new versions of Rust are available in the upstream EPEL repositories, the
