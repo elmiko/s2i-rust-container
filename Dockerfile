@@ -1,10 +1,10 @@
 # This image provides a Rust environment you can use to run your Rust
 # applications.
-FROM centos/s2i-base-centos7
+FROM centos/s2i-core-centos7
 
 EXPOSE 8080
 
-ENV RUST_VERSION=latest \
+ENV RUST_VERSION=1.39.0 \
     PATH=$HOME/.local/bin:$PATH \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8
@@ -16,11 +16,11 @@ building and running various Rust $RUST_VERSION applications and frameworks."
 LABEL summary="$SUMMARY" \
       description="$DESCRIPTION" \
       io.k8s.description="$DESCRIPTION" \
-      io.k8s.display-name="Rust latest" \
+      io.k8s.display-name="Rust 1.39.0" \
       io.openshift.expose-servivces="8080:http" \
-      io.openshift.tags="builder,rust,rust121" \
-      name="elmiko/rust-latest-centos7" \
-      version="latest" \
+      io.openshift.tags="builder,rust,rust139" \
+      name="elmiko/rust-139-centos7" \
+      version="1.39.0" \
       release="1" \
       maintainer="michael mccune <msm@opbstudios.com>"
 
@@ -30,20 +30,9 @@ RUN INSTALL_PKGS="rust cargo" && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y --enablerepo='*'
 
-# Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH.
-COPY ./s2i/bin $STI_SCRIPTS_PATH
-
-# Copy extra files to the image.
-COPY ./root/ /
-
-# - In order to drop the root user, we have to make some directories world
-#   writable as OpenShift default security model is to run the container
-#   under random UID.
-RUN chown -R 1001:0 ${APP_ROOT} && \
-    fix-permissions ${APP_ROOT} -P && \
-    rpm-file-permissions
+COPY ./s2i/bin /usr/libexec/s2i
 
 USER 1001
 
 # Set the default CMD to print the usage of the language image.
-CMD $STI_SCRIPTS_PATH/usage
+CMD ["/usr/libexec/s2i/usage"]
