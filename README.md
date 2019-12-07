@@ -3,7 +3,7 @@
 This repository contains the artifacts to create a
 [source-to-image](https://github.com/openshift/source-to-image) style
 container image that will build [Rust](https://www.rust-lang.org/) binaries.
-It is based on Centos7 and installs Rust from the
+It is based on Centos8 and installs Rust from the
 [EPEL](https://fedoraproject.org/wiki/EPEL) repositories.
 
 ## How to use this image
@@ -27,7 +27,7 @@ remote build using OpenShift, local build using the s2i tool.
 
 1. Launch the build and deployment of the application
    ```
-   oc new-app quay.io/elmiko/rust-centos7~https://github.com/s2i-rust-container.git \
+   oc new-app quay.io/elmiko/rust-centos8~https://github.com/s2i-rust-container.git \
        --context-dir=test/cargo-test-app \
        --name=cargo-test-app
    ```
@@ -56,7 +56,7 @@ curl http://`oc get route/cargo-test-app --template='{{.spec.host}}'`
    ```
    s2i build https://github.com/elmiko/s2i-rust-container.git \
            --context-dir=test/cargo-test-app \
-           quay.io/elmiko/rust-centos7 cargo-test-app
+           quay.io/elmiko/rust-centos8 cargo-test-app
    ```
 1. Run the image
    ```
