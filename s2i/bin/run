@@ -1,6 +1,4 @@
 #!/bin/bash
-source /opt/app-root/etc/generate_container_user
-
 set -e
 
 cd /opt/app-root
@@ -20,3 +18,6 @@ fi
 
 echo "--> Starting application ..."
 cargo run $RELEASE_FLAG
+
+# fix up permissions
+/usr/libexec/s2i/fix-permissions /opt/app-root
