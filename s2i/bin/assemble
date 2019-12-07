@@ -25,5 +25,5 @@ export HOME=/opt/app-root
 echo "--> Building application source ..."
 cargo build $RELEASE_FLAG
 
-# fix the permissions
-chown -R 1001:0 /opt/app-root
+# fix up permissions
+/usr/libexec/s2i/fix-permissions /opt/app-root

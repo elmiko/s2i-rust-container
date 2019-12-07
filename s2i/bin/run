@@ -18,6 +18,3 @@ fi
 
 echo "--> Starting application ..."
 cargo run $RELEASE_FLAG
-
-# fix up permissions
-/usr/libexec/s2i/fix-permissions /opt/app-root
