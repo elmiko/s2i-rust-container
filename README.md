@@ -87,7 +87,7 @@ container tooling.
 
 ## Building and maintaining this image
 
-The image that is produced from this repository(`quay.io/elmiko/rust-centos`)
+The image that is produced from this repository(`quay.io/elmiko/rust-centos8`)
 is automatically built on update. It is updated and rebuilt when new Rust
 releases are available and for bug fixes.
 
@@ -99,6 +99,10 @@ mirrored in the image repository with a `latest` tag.
 The version branches labelled `vX.Y.Z` correspond to Rust versions that have
 been released in EPEL. Each branch has a corresponding image tag in the
 image repository.
+
+The `develop` branch is for experiments and feature development before they
+are merged into the master line. Use these artifacts and images at your
+own risk.
 
 ### Rebuilding the image locally
 
