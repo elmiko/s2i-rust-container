@@ -52,11 +52,18 @@ curl http://`oc get route/cargo-test-app --template='{{.spec.host}}'`
 
 #### Procedure
 
-1. Build the image
+1. Build a Dockerfile for the image
    ```
    s2i build https://github.com/elmiko/s2i-rust-container.git \
            --context-dir=test/cargo-test-app \
+           --as-dockerfile=/path/to/dockerfile/dir
            quay.io/elmiko/rust-centos8 cargo-test-app
+   ```
+1. Build the image with Podman
+   ```
+   podman build -t cargo-test-app \
+       -f /path/to/dockerfile/dir/Dockerfile \
+       /path/to/dockerfile/dir
    ```
 1. Run the image
    ```
