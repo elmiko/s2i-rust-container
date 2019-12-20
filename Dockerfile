@@ -4,7 +4,8 @@ FROM docker.io/centos:centos8
 
 EXPOSE 8080
 
-ENV RUST_VERSION=1.39.0 \
+ENV HOME=/opt/app-root \
+    RUST_VERSION=1.39.0 \
     PATH=$HOME/.local/bin:$PATH \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8
