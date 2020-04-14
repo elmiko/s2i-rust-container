@@ -27,7 +27,7 @@ LABEL summary="$SUMMARY" \
       release="1" \
       maintainer="michael mccune <msm@opbstudios.com>"
 
-RUN INSTALL_PKGS="rust-1.35.0 cargo-1.35.0" && \
+RUN INSTALL_PKGS="rust-1.39.0 cargo-1.39.0" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y --enablerepo='*' && \
