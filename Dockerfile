@@ -5,7 +5,7 @@ FROM docker.io/centos:centos8
 EXPOSE 8080
 
 ENV HOME=/opt/app-root \
-    RUST_VERSION=1.39.0 \
+    RUST_VERSION=1.41.1 \
     PATH=$HOME/.local/bin:$PATH \
     LC_ALL=en_US.UTF-8 \
     LANG=en_US.UTF-8
@@ -17,17 +17,17 @@ building and running various Rust $RUST_VERSION applications and frameworks."
 LABEL summary="$SUMMARY" \
       description="$DESCRIPTION" \
       io.k8s.description="$DESCRIPTION" \
-      io.k8s.display-name="Rust 1.39.0" \
+      io.k8s.display-name="Rust 1.41.1" \
       io.openshift.expose-servivces="8080:http" \
       io.openshift.tags="builder,rust,rust139" \
       io.openshift.s2i.scripts-url="image:///usr/libexec/s2i/" \
       io.openshift.s2i.destination="/tmp" \
       name="quay.io/elmiko/rust-centos8" \
-      version="1.39.0" \
+      version="1.41.1" \
       release="1" \
       maintainer="michael mccune <msm@opbstudios.com>"
 
-RUN INSTALL_PKGS="rust-1.39.0 cargo-1.39.0" && \
+RUN INSTALL_PKGS="rust-1.41.1 cargo-1.41.1" && \
     yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
     yum clean all -y --enablerepo='*' && \
