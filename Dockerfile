@@ -28,9 +28,9 @@ LABEL summary="$SUMMARY" \
       maintainer="michael mccune <msm@opbstudios.com>"
 
 RUN INSTALL_PKGS="rust-1.41.1 cargo-1.41.1" && \
-    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+    dnf install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    yum clean all -y --enablerepo='*' && \
+    dnf clean all -y --enablerepo='*' && \
     mkdir /opt/app-root && \
     chown -R 1001:0 /opt/app-root
 
